@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dash extends CI_Controller {
+class Shop extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,15 +20,6 @@ class Dash extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();
-		$username 	= $this->session->userdata('username');
-		$level 		= $this->session->userdata('level');
-		if($username == ''){
-			redirect(base_url("Auth"));
-		}
-		if($level != 'admin'){
-			//redirect(base_url("shop"));
-		}
-		echo $level;
 	}
 
 	public function index() {
