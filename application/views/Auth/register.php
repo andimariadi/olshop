@@ -47,9 +47,6 @@
                                     <input type="submit" value="Login" name="login" class="button">
                                     <label class="inline" for="rememberme"><input type="checkbox" value="forever" id="rememberme" name="rememberme"> Remember me </label>
                                 </p>
-                                <p class="lost_password">
-                                    <a href="#">Lost your password?</a>
-                                </p>
 
                                 <div class="clear"></div>
                             </form>

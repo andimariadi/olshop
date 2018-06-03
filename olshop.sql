@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 01, 2018 at 02:34 PM
+-- Generation Time: Jun 03, 2018 at 02:30 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -19,26 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `olshop`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `barang`
---
-
-CREATE TABLE `barang` (
-  `id` int(100) NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
-  `linkname` varchar(100) NOT NULL,
-  `name` varchar(250) NOT NULL,
-  `description` text NOT NULL,
-  `price` int(50) NOT NULL,
-  `discont` int(11) NOT NULL,
-  `first_date_discon` date NOT NULL,
-  `last_date_discon` date NOT NULL,
-  `id_category` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -60,7 +40,7 @@ CREATE TABLE `category` (
 
 CREATE TABLE `chart_user` (
   `id` int(100) NOT NULL,
-  `id_barang` int(100) NOT NULL,
+  `id_product` int(100) NOT NULL,
   `id_user` int(100) NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -86,32 +66,53 @@ CREATE TABLE `data_user` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `image_barang`
+-- Table structure for table `image_product`
 --
 
-CREATE TABLE `image_barang` (
+CREATE TABLE `image_product` (
   `id` int(100) NOT NULL,
-  `id_barang` int(100) NOT NULL,
+  `id_product` int(100) NOT NULL,
   `link_url` varchar(100) NOT NULL,
   `name_image` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pesan_barang`
+-- Table structure for table `order_product`
 --
 
-CREATE TABLE `pesan_barang` (
+CREATE TABLE `order_product` (
   `id` int(100) NOT NULL,
-  `id_user` int(100) NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
-  `id_barang` int(100) NOT NULL,
-  `total_pesan` int(10) NOT NULL,
-  `total_bayar` int(50) NOT NULL,
+  `id_user` int(100) NOT NULL,
+  `id_product` int(100) NOT NULL,
+  `address` text NOT NULL,
+  `total` int(10) NOT NULL,
+  `total_pay` int(50) NOT NULL,
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `id` int(100) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `linkname` varchar(100) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `description` text NOT NULL,
+  `price` int(50) NOT NULL,
+  `discont` int(11) NOT NULL,
+  `first_date_discon` date NOT NULL,
+  `last_date_discon` date NOT NULL,
+  `id_category` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -161,25 +162,19 @@ INSERT INTO `user_login` (`id`, `username`, `password`, `level`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `verification_pesanan`
+-- Table structure for table `verification_order`
 --
 
-CREATE TABLE `verification_pesanan` (
+CREATE TABLE `verification_order` (
   `id` int(100) NOT NULL,
-  `id_pesanan` int(100) NOT NULL,
+  `id_order` int(100) NOT NULL,
   `link_url` varchar(100) NOT NULL,
   `name_image` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `barang`
---
-ALTER TABLE `barang`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `category`
@@ -200,15 +195,21 @@ ALTER TABLE `data_user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `image_barang`
+-- Indexes for table `image_product`
 --
-ALTER TABLE `image_barang`
+ALTER TABLE `image_product`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pesan_barang`
+-- Indexes for table `order_product`
 --
-ALTER TABLE `pesan_barang`
+ALTER TABLE `order_product`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -224,20 +225,15 @@ ALTER TABLE `user_login`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `verification_pesanan`
+-- Indexes for table `verification_order`
 --
-ALTER TABLE `verification_pesanan`
+ALTER TABLE `verification_order`
   ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
---
--- AUTO_INCREMENT for table `barang`
---
-ALTER TABLE `barang`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `category`
 --
@@ -254,9 +250,14 @@ ALTER TABLE `chart_user`
 ALTER TABLE `data_user`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `image_barang`
+-- AUTO_INCREMENT for table `image_product`
 --
-ALTER TABLE `image_barang`
+ALTER TABLE `image_product`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `slide`
@@ -269,9 +270,9 @@ ALTER TABLE `slide`
 ALTER TABLE `user_login`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `verification_pesanan`
+-- AUTO_INCREMENT for table `verification_order`
 --
-ALTER TABLE `verification_pesanan`
+ALTER TABLE `verification_order`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

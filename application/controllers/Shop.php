@@ -20,10 +20,41 @@ class Shop extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();
+		$username 	= $this->session->userdata('username');
+		$level 		= $this->session->userdata('level');
 	}
 
 	public function index() {
-		//redirect(base_url('Auth'));
+		$data = array('title_head' => 'Homepage - Olshop Tekno');
+		$this->load->view('Template/header', $data);
+		//login
+		$slide = $this->Crud->view('slide');
+		$data  = array('slide' => $slide);
+		$this->load->view('Shop/home', $data);
+		$this->load->view('Template/footer');
+	}
+
+	public function product() {
+		$data = array('title_head' => 'All Product - Olshop Tekno');
+		$this->load->view('Template/header', $data);
+		$this->load->view('Shop/product');
+		$this->load->view('Template/footer');
+	}
+
+	public function category($category = '') {
+		if ($category != '') {
+			$data = array('title_head' => 'Category Product - Olshop Tekno');
+			$this->load->view('Template/header', $data);
+			$search = $this->Crud->search('product', array('id_category' => $category));
+			$this->load->view('Shop/category', $data);
+			$this->load->view('Template/footer');
+		} else {
+			$data = array('title_head' => 'All Product - Olshop Tekno');
+			$this->load->view('Template/header', $data);
+			$this->load->view('Shop/product');
+			$this->load->view('Template/footer');
+		}
+		
 	}
 		
 }

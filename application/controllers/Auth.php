@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
 		$where = array('username' => $user);
 		$data = $this->Crud->search('user_login', $where)->row_array();
 		if (password_verify($pass, $data['password'])) {
-			$session_data = array('username' => $data['username'], 'level' => $data['level']);
+			$session_data = array('id_user' => $data['id'], 'username' => $data['username'], 'level' => $data['level']);
 			$this->session->set_userdata($session_data);
 			redirect(base_url('Dash'));
 		} else {

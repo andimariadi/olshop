@@ -26,13 +26,15 @@ class Dash extends CI_Controller {
 			redirect(base_url("Auth"));
 		}
 		if($level != 'admin'){
-			//redirect(base_url("shop"));
+			redirect(base_url("shop"));
 		}
-		echo $level;
 	}
 
 	public function index() {
-		//redirect(base_url('Auth'));
+		$data = array('title_head' => 'Homepage - Admin Olshop Tekno');
+		$this->load->view('Template/header_admin', $data);
+		$this->load->view('Admin/home');
+		$this->load->view('Template/footer_admin');
 	}
 		
 }
